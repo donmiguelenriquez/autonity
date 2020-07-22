@@ -240,29 +240,17 @@ func runTest(t *testing.T, test *testCase) {
 	}
 
 	defer func() {
-		wgClose := &errgroup.Group{}
 		for _, peer := range nodes {
-			peer := peer
 
-			wgClose.Go(func() error {
-				if !peer.isRunning {
-					return nil
-				}
+			if !peer.isRunning {
+				return
+			}
 
-				errInner := peer.node.Close()
-				if errInner != nil {
-					return fmt.Errorf("error on node close %v", err)
-				}
+			errInner := peer.node.Close()
+			if errInner != nil {
+				t.Fatalf("error on node close %v", err)
+			}
 
-				peer.node.Wait()
-
-				return nil
-			})
-		}
-
-		err = wgClose.Wait()
-		if err != nil {
-			t.Fatal(err)
 		}
 
 		// level DB needs a second to close
