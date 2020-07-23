@@ -22,6 +22,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"runtime/debug"
 	"time"
 
 	"github.com/clearmatics/autonity/consensus/tendermint/bft"
@@ -507,6 +508,7 @@ func (sb *Backend) Start(ctx context.Context) error {
 // Stop implements consensus.Stop
 func (sb *Backend) Close() error {
 	fmt.Printf("stopping engine %s\n", sb.address.String())
+	debug.PrintStack()
 	// the mutex along with coreStarted should prevent double stop
 	sb.coreMu.Lock()
 	defer sb.coreMu.Unlock()
