@@ -88,6 +88,7 @@ func TestTendermintMajorityExternalUsers(t *testing.T) {
 		testCase := testCase
 		t.Run(fmt.Sprintf("test case %s", testCase.name), func(t *testing.T) {
 			runTest(t, testCase)
+			println()
 		})
 	}
 }
