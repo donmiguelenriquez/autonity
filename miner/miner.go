@@ -117,6 +117,11 @@ func (miner *Miner) update() {
 				return
 			}
 		case <-miner.exitCh:
+			if miner.Mining() {
+				miner.Stop()
+				atomic.StoreInt32(&miner.shouldStart, 1)
+				log.Info("Mining aborted due to sync")
+			}
 			return
 		}
 	}
