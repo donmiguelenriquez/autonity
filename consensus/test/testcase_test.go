@@ -248,6 +248,7 @@ func runTest(t *testing.T, test *testCase) {
 
 			errInner := peer.node.Close()
 			if errInner != nil {
+				fmt.Printf("error from node close: %v", errInner)
 				t.Fatalf("error on node close %v", err)
 			}
 
